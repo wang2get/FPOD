@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>命理測試</title>
+
+<style>
+@font-face {
+  font-family: "PandaFont";
+  src: url("font.otf") format("truetype");
+}
+body {
+    font-family: "PandaFont", sans-serif;font-size: 30px;
+  background:
+    linear-gradient(rgba(10,10,30,0.7), rgba(10,10,30,0.9)),
+    url('https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 60px 20px;
+}
+button {
+  font-family: "PandaFont", sans-serif;font-size: 30px;
+}
+#birthdate::-webkit-datetime-edit,
+#birthdate::-webkit-date-and-time-value {
+    font-family: "PandaFont", sans-serif;font-size: 30px;
+}
+/* 容器 */
+.container {
+  max-width: 400px;
+  margin: auto;
+}
+
+/* 輸入框 */
+.input-box {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  padding: 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* 真正 input */
+.input-box input {
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 18px;
+  width: 100%;
+  text-align: center;
+  outline: none;
+}
+
+/* 按鈕 */
+button {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #ffcc70;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+}
+/* 日期 input */
+.input-box input {
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 18px;
+  width: 100%;
+  text-align: center;
+}
+
+/* 時辰 select */
+select {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  outline: none;
+  font-family: "PandaFont", sans-serif;font-size: 30px;
+}
+
+/* 下拉選單選項（重要） */
+select option {
+  color: black;
+  font-family: "PandaFont", sans-serif;font-size: 30px;
+}
+
+/* 按鈕 */
+button {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #ffcc70;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  font-family: "PandaFont", sans-serif;font-size: 30px;
+}
+
+
+
+
+/* 天干地支月干時干表格線 */
+
+/* 👉 表格本體 */
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* 👉 所有格子（關鍵：一定要全邊框） */
+table td {
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 10px;
+}
+
+/* 👉 表頭（年月日時柱） */
+
+.bazi-cell {
+  background: transparent; /* ✅ 很重要 */
+}
+/* 👉 天干那一列（補上「上面那條線」） */
+.bazi-stem td {
+  border-top: 1px solid rgba(255,255,255,0.12); /* ✅ 關鍵 */
+}
+
+/* 👉 地支那一列（中間分隔線更明顯） */
+.bazi-branch td {
+  background: rgba(255,255,255,0.04);
+  border-top: 1px solid rgba(255,255,255,0.18); /* ✅ 天干↔地支分隔 */
+}
+
+/* 👉 左側標籤欄 */
+table td:first-child {
+  background: rgba(255,255,255,0.12);
+  border-left: 1px solid rgba(255,255,255,0.2);
+}
+//表頭
+.bazi-header td.bazi-cell {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.18),
+    rgba(255,255,255,0.08)
+  );
+}
+table tr.bazi-header td {
+  background: rgba(255,255,255,0.18) !important;
+}
+
+//五行條動畫
+.selector {
+  justify-content:flex-start;
+}
+
+@keyframes flow {
+  /* 0% 到 23%：這段會以你原本的速度跑完 (約3秒) */
+  0% { 
+    background-position: 200% 50%; 
+  }
+  23% { 
+    background-position: 0% 50%; 
+  }
+  /* 23% 到 100%：這段會完全靜止 (約10秒) */
+  100% { 
+    background-position: 0% 50%; 
+  }
+}
+
+
+
+//性格卡片-核心滑動效果
+.swiper {
+  overflow-x: auto;
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* iOS滑順 */
+}
+
+/* 隱藏滾動條（美觀） */
+.swiper::-webkit-scrollbar {
+  display: none;
+}
+
+.swiper-track {
+  display: flex;
+  gap: 12px;
+}
+
+/* 卡片 */
+.slide {
+  flex: 0 0 240px;   /* ⭐關鍵：固定寬度 */
+  scroll-snap-align: center;
+
+  background: rgba(0,0,0,0.6);
+  border-radius: 12px;
+  padding: 15px;
+
+  transition: 0.3s;
+}
+
+/* hover效果（桌機才有感） */
+.slide:hover {
+  transform: scale(1.05);
+}
+@media (max-width: 600px) {
+  .slide {
+    flex: 0 0 80%;  /* 手機一頁一張 */
+  }
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+  <h1>🔮 命理測試</h1>
+
+  <!-- 👉 點整塊開日曆 -->
+  <div class="input-box" onclick="openDate()">
+    <label for="birthdate" style="font-family: 'PandaFont';" font-size: "30px">出生年/月/日：</label>
+	<input type="date" id="birthdate" onclick="this.showPicker()" value="1991-05-17">
+ </div>
+
+ 
+  	<!-- 出生時辰-->
+ <!-- 時辰（下拉） -->
+  <div class="input-box">
+    <select id="shichen"  class="input-box"  width: "400px">
+      <option value="">選擇時辰</option>
+      <option value="子時">子時（23:00-01:00）</option>
+      <option value="丑時">丑時（01:00-03:00）</option>
+      <option value="寅時">寅時（03:00-05:00）</option>
+      <option value="卯時">卯時（05:00-07:00）</option>
+      <option value="辰時">辰時（07:00-09:00）</option>
+      <option value="巳時" selected>巳時（09:00-11:00）</option>
+      <option value="午時">午時（11:00-13:00）</option>
+      <option value="未時">未時（13:00-15:00）</option>
+      <option value="申時">申時（15:00-17:00）</option>
+      <option value="酉時">酉時（17:00-19:00）</option>
+      <option value="戌時">戌時（19:00-21:00）</option>
+      <option value="亥時">亥時（21:00-23:00）</option>
+    </select>
+  </div>
+	<!-- 不知道生辰(核選方塊) -->
+	<div style="margin-top:10px;">
+		<label>
+		<input type="checkbox" id="noTime">
+		不知道出生時辰
+		</label>
+	</div>
+
+   <!-- 開始分析(按鈕) -->
+  <button id="analyzeBtn">開始分析</button>
+
+  <div id="result"></div>
+</div>
+</br>
+<div class="card"> 命 理 測 試 分 析</div>
+<div class="card" style="opacity:0.5;">
+※ 本系統為簡化命理模型，僅供參考
+</div>
+  
+<script src="script.js"></script>
+
+</body>
+</html>
