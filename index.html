@@ -35,9 +35,16 @@ button {
 /* 容器 */
 //主容器包全部
 .container {
-  max-width: 900px;
-  margin: auto;
+  width: 100%;
   padding: 16px;
+}
+
+/* ⭐桌機才限制寬度 */
+@media (min-width: 768px) {
+  .container {
+    max-width: 420px;
+    margin: 0 auto;
+  }
 }
 
 
